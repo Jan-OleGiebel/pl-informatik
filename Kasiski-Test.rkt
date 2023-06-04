@@ -23,10 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 |#
 
-; Code 1 für Jan-Ole Giebels PL im Fach Informatik zur Durchführung des Kasiski-Tests.
-(define geheimText  "HGINEHWTEIBLUNARWPCLDWCVDDYUVNCETJIBLTFTQEVIIFFJEEHRNREQGIVNZYTLRZPUVNYIJKEMHBJKNQNKMHVOZCGXBLSCINJIMREZEKYGKIRXLLEGPVEDDWELNJIMKUMHSLHHKGCIDWTKDDVSYEHREVRFMQWEKHFJBDVHVSEYOBEKXJDAAIOUSNROVNRGIVIMHJVSBLPVNRXFAUMKGIATWJKZDXEFRSSCVNVYOUEQFBIIGVHFLCRFJGDWDYMDMEVBKMUQESWJVKZINDTHLSXOKHFEERLBRRRMFBADQNKERQJKGNPEVNDQLRMLIVEDRMOXTDMOCIDHERBDMERSGEUVIMIXLNCISJALIHVWZPUXELIMFDDMEVNRGIZFEISZMJPFZNDRTTHHJGVEQKSVIEXFJMHXXZLCINNEGISJCGEVKNHGIKDHIGVLRIOIIEJFVRRGIRUSRVIHHRBLFHREZEGSFYIBLHCATFFUIDAFCLDRWVRRGICIMKFEALIOUERGIZFEISLNCOBYNTREUARLBKMHXJYRDQTZNFIOUIDPPIEKIZXESEO;WGRQPWVPYPWSEJIFFSCRIQUSDOXYMIKKVXXSZTIAISZSSKRCÜZYKILRZPVYIGLHNGVQUSVXRVOVKFYOQIIZIVXSEBIEEHRTH;HZRNUPYFSDOXRUBVSFRUBUOIFFSCRIOQHRYXRZNFMIFMPVXKYQWTNDHDÜQBJIAZPVOHRDPVXÜLEGBXAQJQVKKRVTBBÄRXREQYGYRD")
+; Diese Datei beinhaltet den Ersten Code für Jan-Ole Giebels PL im Fach Informatik zur Durchführung des Kasiski-Tests.
+(define geheimText  "AZBBDPHMAKDDNOXGPQFGWNXMRWGQKAMNYSLOWHBDNMGDNABDDBWQAQLBDQYEADHQWVDDNTBDCMGDNOXGPHNLAZLSAVNMZNKZCBXHJMGLWBKNOMGMWOXMKALDSWAHJOXGPLBDNMBRAEBQXZBMCMGCQMGFAUBSPMEMWKALKATLXQDTJLDNIUXMIQMDEVXQHIWTJODZBNXDVCKTAKDFQBZDJWLRAEXHPMKLWKADJJXHIHPDEBXMOKAHBNWHAOEDEKADBZTFAVTFAVHROMPNDQGFAPMCEMKDEAXVEZAZXMGEWPKQWMWDNOXKWLXMZQXVEZSTCMGNOAXEELXKYILSNWUQEVZDJHNQQMVJGWFLAVPHNUBSAQGDNTTCQVZAWVTMAVZTPOXMKALDSMBSAZFZYPXMHMMYPMGCHQVGXMBLZZBSPMGRYPBEBVTFAVHROMPNDQGFAPMCEMKDEAXVEZUQEVZDJSTEBMXTJLUZJIGDJVTBDTXMEVZQWLNMZEHLEBDNIUMHDZSTNCXBGVTVEMBLIMKFIQMCAZXHOMGAWPG")
 
-; Gibt die Verschiebung einer x langen Buchstabenkombination zurück.
+; Gibt die Verschiebung einer x-langen Buchstabenkombination zurück.
 (define (getDisplacementFromCombination alphabetString stringLength startValue compStringLength [counter 0] [buffer ""])
   (cond
     [(equal? stringLength ( + counter compStringLength)) 0]
@@ -37,7 +37,7 @@ SOFTWARE.
   )
 )
 
-; Gibt die Verschiebungen aller x langen Kombinationen zurück. Wenn es keine gibt wird 0 zurückgegeben.
+; Gibt die Verschiebungen aller x-langen Kombinationen zurück. Wenn es keine gibt wird 0 zurückgegeben.
 (define (getAllDisplecements alphabetString alphabetStringBuffer compStringLength [displacements '()])
   (cond
     [(< (string-length alphabetString) (* 2 compStringLength)) displacements]
@@ -53,7 +53,7 @@ SOFTWARE.
   )
 )
 
-; Gestaltet die Liste mit den Verschiebungen übersictlicher
+; Gestaltet die Liste mit den Verschiebungen übersictlicher.
 (define (sortBigToSmall list)
   (define (getLargestNumber list listLength [buffer 0] [counter 0])
     (cond
@@ -87,7 +87,7 @@ SOFTWARE.
   )
 )
 
-; Entferne nullen
+; Entfernt die Nullen aus einer Liste.
 (define (removeZero list)
   (cond
     [(empty? list) '()]
@@ -96,8 +96,8 @@ SOFTWARE.
   )
 )
 
-; Algorithmus für die Berechnung aller Primfaktoren
-(define (calculate-prime-numbers-of-n n)
+; Algorithmus für die Berechnung aller Primfaktoren.
+(define (primeFactorization n)
   (cond
     [(equal? n 1) '()]
     [else
@@ -123,7 +123,7 @@ SOFTWARE.
 (define (getAllPrimaFactors list)
   (cond
     [(empty? list) '()]
-    [else (cons (calculate-prime-numbers-of-n (first list)) (getAllPrimaFactors (rest list)))]
+    [else (cons (primeFactorization (first list)) (getAllPrimaFactors (rest list)))]
   )
 )
 
@@ -134,17 +134,17 @@ SOFTWARE.
   (getAllPrimaFactors finalDisplacementList)
 )
 
+; Führe den eigentlichen Kasiski-Test aus:
 (displayln "Führe den Kasiski-Test aus:")
 (displayln "Folgend wird die Primfaktor-Verteilung ausgegeben:")
 (define prim3 (doKasiskiTest geheimText 3))
 (displayln prim3)
 
-;https://de.m.wikibooks.org/wiki/Algorithmensammlung:_Zahlentheorie:_Primfaktorisierung
-
 ; Ab hier wird probiert den größten gemeinsamen Teiler zu finden.
-; !!!Wichtig funktioniert nicht immer!!! Wenn es zu viele zufällige Dopplungen gibt, kommt ein faches Ergenbis heraus!!!
+; !!!Wichtig, funktioniert nicht immer!!! Wenn es zu viele zufällige Dopplungen gibt, kommt ein falsches Ergenbis heraus.!!!
+; !!!Ich möchte den Code nur der Vollständigkeit halber hier mit anfügen.!!!
 
-; Entfernt eine Liste aus einer 2D-Liste, wobei nach dem Ersten Element iner der inneren Liste geschaut wird.
+; Entfernt eine Liste aus einer 2D-Liste, wobei nach dem Ersten Element in der der inneren Liste gesucht wird.
 (define (rmSubListFrom2DList list elm)
   (define (inner list elm)
     (cond
@@ -256,6 +256,14 @@ SOFTWARE.
     ]
   )
 )
+
+; Gibt den am häufigsten vorkommenden Primfaktor aus.
+(define greatestPrimeFactor (get2DListBiggest (getFrequncyDistribution prim3)))
+(display "Der am häufigsten vorkommene Promfaktor ist: ")
+(display (first greatestPrimeFactor))
+(display " mit: ")
+(display (first (rest greatestPrimeFactor)))
+(displayln " Mal.")
 
 ; Versuche nun den ggt herauszubekommen.
 (displayln "Eventuell ist der ggt:")

@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 |#
 
-; Code 2 für Jan-Ole Giebels PL im Fach Informatik zur Durchführung des Friedman-Tests.
+; Diese Datei beinhaltet den Zweiten Code für Jan-Ole Giebels PL im Fach Informatik zur Durchführung des Friedman-Tests.
 (define geheimText  "AZBBDPHMAKDDNOXGPQFGWNXMRWGQKAMNYSLOWHBDNMGDNABDDBWQAQLBDQYEADHQWVDDNTBDCMGDNOXGPHNLAZLSAVNMZNKZCBXHJMGLWBKNOMGMWOXMKALDSWAHJOXGPLBDNMBRAEBQXZBMCMGCQMGFAUBSPMEMWKALKATLXQDTJLDNIUXMIQMDEVXQHIWTJODZBNXDVCKTAKDFQBZDJWLRAEXHPMKLWKADJJXHIHPDEBXMOKAHBNWHAOEDEKADBZTFAVTFAVHROMPNDQGFAPMCEMKDEAXVEZAZXMGEWPKQWMWDNOXKWLXMZQXVEZSTCMGNOAXEELXKYILSNWUQEVZDJHNQQMVJGWFLAVPHNUBSAQGDNTTCQVZAWVTMAVZTPOXMKALDSMBSAZFZYPXMHMMYPMGCHQVGXMBLZZBSPMGRYPBEBVTFAVHROMPNDQGFAPMCEMKDEAXVEZUQEVZDJSTEBMXTJLUZJIGDJVTBDTXMEVZQWLNMZEHLEBDNIUMHDZSTNCXBGVTVEMBLIMKFIQMCAZXHOMGAWPG")
 
 ;Code zum erstellen eines Alphabetes.
-; Characters in Scheme-Symbols umwandeln.
+; Characters in Scheme-Symbols umwandeln. (Aus der gegebenen Datei StringFunktionen.rkt.)
 (define (char->symbol aChar)
   (define aString (string aChar))
   (string->symbol aString)
@@ -43,11 +43,11 @@ SOFTWARE.
   )
 )
 
-; Falls man ein verschobenes Alphabet erstellen möchte, wird hier der Überlauf erkannt. (Hauptsächlich für ein Anderes Programm.)
+; Falls man ein verschobenes Alphabet erstellen möchte, wird hier der Überlauf erkannt. (Wird hauptsächlich für ein anderes Programm benötigt.)
 (define (check_alphabet_overflow  num)
       (+ (modulo (- num 65) 26) 65))
 
-; Die Liste mit den ASCII-Zahlen in eine Character-List umwandeln.
+; Die Liste mit den ASCII-Zahlen wird hier in eine Character-List umwandeln.
 (define (asciiIntToCharList numList)
   (cond
     [(empty? numList) '()]
@@ -74,7 +74,7 @@ SOFTWARE.
 )
 ;Ende des Codes zum erstellen eines Alphabetes.
 
-;Funktion zum zählen, wie oft ein Elelent in einem String vorkommt.
+;Funktion zum zählen, wie oft ein Element in einem String vorkommt.
 (define (calculateNumberOfElmInString stringBuffer elm [counter 0])
   (cond
     [(equal? stringBuffer "") counter]
@@ -114,7 +114,7 @@ SOFTWARE.
 ; Funktion zur eigentlichen Durchführung des Friedman testes.
 (define (doFriedmanTest stringBuffer coincidenceIndex coincidenceIndexRandom coincidenceIndexGerman)
   (define n (string-length stringBuffer))
-  ;(/ (* n (- coincidenceIndexGerman coincidenceIndexRandom)) (- (* coincidenceIndex (- n 1)) (+ (* coincidenceIndexRandom n) coincidenceIndexGerman)))
+  ;(/ (* n (- coincidenceIndexGerman coincidenceIndexRandom)) (- (* coincidenceIndex (- n 1)) (+ (* coincidenceIndexRandom n) coincidenceIndexGerman))) (Andere Formel)
   (/ (- coincidenceIndexGerman coincidenceIndexRandom) (- coincidenceIndex coincidenceIndexRandom))
 )
 
@@ -124,6 +124,6 @@ SOFTWARE.
 ; Den Koinzidenzindex des verschlüsselten Textes berechnen.
 (define coIndex (calculateCoincidenceIndex geheimText alphabet))
 
-; Den eigentlichen Friedman-Test mit den Koinzidenz-Werten: 0.0385 -> für einen zufälligen Text
-; und: 0.0762 -> für einen deutschen Text.
+; Den eigentlichen Friedman-Test, mit den Koinzidenz-Werten: 0.0385 -> für einen zufälligen Text
+; und: 0.0762 -> für einen deutschen Text, ausführen.
 (doFriedmanTest geheimText coIndex 0.0385 0.0762)
