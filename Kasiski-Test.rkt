@@ -53,7 +53,7 @@ SOFTWARE.
   )
 )
 
-; Gestaltet die Liste mit den Verschiebungen übersictlicher.
+; Gestaltet die Liste mit den Verschiebungen übersichtlicher.
 (define (sortBigToSmall list)
   (define (getLargestNumber list listLength [buffer 0] [counter 0])
     (cond
@@ -140,10 +140,6 @@ SOFTWARE.
 (define prim3 (doKasiskiTest geheimText 3))
 (displayln prim3)
 
-; Ab hier wird probiert den größten gemeinsamen Teiler zu finden.
-; !!!Wichtig, funktioniert nicht immer!!! Wenn es zu viele zufällige Dopplungen gibt, kommt ein falsches Ergenbis heraus.!!!
-; !!!Ich möchte den Code nur der Vollständigkeit halber hier mit anfügen.!!!
-
 ; Entfernt eine Liste aus einer 2D-Liste, wobei nach dem Ersten Element in der der inneren Liste gesucht wird.
 (define (rmSubListFrom2DList list elm)
   (define (inner list elm)
@@ -229,6 +225,40 @@ SOFTWARE.
   )
 )
 
+; Gestaltet die Liste mit den Primfaktor-Häufigkeiten übersichtlicher.
+(define (sortFrequencyDistributionBigToSmall list)
+  (define (getLargestNumber list listLength [buffer '(0 0)] [counter 0])
+    (cond
+      [(equal? listLength counter) buffer]
+      [else
+       (cond
+         [(> (first (rest (first list))) (first (rest buffer))) (getLargestNumber (rest list) listLength (first list) (add1 counter))]
+         [else
+          (getLargestNumber (rest list) listLength buffer (add1 counter))
+         ]
+       )
+      ]
+    )
+  )
+
+  (define (removeItem list elm)
+    (cond
+      [(empty? list) '()]
+      [(equal? (first list) elm) (removeItem (rest list) elm)]
+      [else
+       (cons (first list) (removeItem (rest list) elm))
+      ]
+    )
+  )
+  (cond
+    [(empty? list) '()]
+    [else
+     (define largestNumber (getLargestNumber list (length list)))
+     (cons largestNumber (sortFrequencyDistributionBigToSmall (removeItem list largestNumber)))
+    ]
+  )
+)
+
 ; Versuche den größten gemeinsamen Teiler herauszufinden.
 (define (tryGetGreatestCommonDivider listBufferOne)
   (cond
@@ -257,6 +287,11 @@ SOFTWARE.
   )
 )
 
+; Gibt die Primfaktoren mit Ihrer Häufigkeit aus:
+(define frequencyDistribution (getFrequncyDistribution prim3))
+(displayln "Die Häüfigkeiten der einzelnen Primfaktoren lauten (Primfaktor Anzahl):")
+(displayln (sortFrequencyDistributionBigToSmall frequencyDistribution))
+
 ; Gibt den am häufigsten vorkommenden Primfaktor aus.
 (define greatestPrimeFactor (get2DListBiggest (getFrequncyDistribution prim3)))
 (display "Der am häufigsten vorkommene Promfaktor ist: ")
@@ -264,6 +299,11 @@ SOFTWARE.
 (display " mit: ")
 (display (first (rest greatestPrimeFactor)))
 (displayln " Mal.")
+
+; Ab hier wird probiert den größten gemeinsamen Teiler zu finden.
+; !!!Wichtig, funktioniert nicht immer!!! Wenn es zu viele zufällige Dopplungen gibt, kommt ein falsches Ergenbis heraus.!!!
+; !!!Ich möchte den Code nur der Vollständigkeit halber hier mit anfügen.!!!
+; !!!Hierfür sind einige der oberen Funktionen notwendig.!!!
 
 ; Versuche nun den ggt herauszubekommen.
 (displayln "Eventuell ist der ggt:")
